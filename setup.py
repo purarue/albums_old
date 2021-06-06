@@ -13,6 +13,11 @@ if __name__ == "__main__":
         description=("my personal album system"),
         license="MIT",
         packages=find_packages(include=[pkg]),
+        extras_require={
+            'sql': [
+                'mysqlclient>=1.4.6'
+            ]
+        },
         entry_points={"console_scripts": ["nextalbums = nextalbums.__main__:main"]},
         package_data={pkg: ["py.typed"]},
         install_requires=requirements,

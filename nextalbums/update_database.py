@@ -4,12 +4,13 @@ import csv
 import operator
 from typing import List
 
-import MySQLdb  # type: ignore[import]
 
 from . import SETTINGS
 
 
 def create_connection():
+    import MySQLdb  # type: ignore[import]
+
     return MySQLdb.connect(
         host="localhost",
         db=SETTINGS.MYSQL_DATABASE_NAME,

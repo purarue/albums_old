@@ -158,7 +158,7 @@ Note: To my knowledge, no one has ever done this yet, so if you have issues, fee
   - You can open a new [google sheet](https://docs.google.com/spreadsheets/u/0/), and then File > Import [`spreadsheet.csv`](spreadsheet.csv) into a new google sheet.
   - I'd also recommend setting a fixed row height to ensure images are all the same size (You can do this by doing Ctrl/⌘ + A repeatedly till the margins are selected, and then resizing one row to your desired height.)
   - Name the sheet `Music` (near the bottom left)
-2. Clone this repository `git clone https://github.com/seanbreckenridge/albums`, and install it using `pip install --editable .`, installing it as an editable package. This **won't** work as normal `pip install`, it **must** be editable
+2. Clone this repository `git clone https://github.com/seanbreckenridge/albums`, and install it using `pip install --editable .`, installing it as an editable package. This **won't** work as normal `pip install`, it **must** be editable. If you plan to use the database (MySQL/MariaDB), run `pip install --editable '.[sql]'`
 3. Create a file named `client_secret.json` in the root directory which contains your credentials for a google sheets OAuth connection. [Instructions for how to get your `client_secret.json` file here](https://pygsheets.readthedocs.io/en/staging/authorization.html); download your created credentials from [the Google credentials console](https://console.developers.google.com/apis/credentials)
 4. Run `python3 setup_credentials.py` to authenticate this with the Google account you created the spreadsheet on
 5. Update the `SPREADSHEET_ID` variable in `settings.py` - the ID is after the `/d/` in the URL when viewing it in Google Sheets
