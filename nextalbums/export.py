@@ -1,6 +1,6 @@
 import json
 import re
-import datetime
+from datetime import date, datetime
 from time import strptime
 from pathlib import Path
 from typing import NamedTuple, List, Iterator, Optional, Any, Union, Dict
@@ -16,6 +16,7 @@ from .common import cache
 
 CANT_FIND = "cant find"
 
+
 class Artist(NamedTuple):
     artist_id: int
     artist_name: Optional[str]
@@ -27,7 +28,7 @@ Note = str
 class Album(NamedTuple):
     score: Optional[float]
     note: Optional[Note]  # .e.g some reason I couldn't listen to an album, cant find it
-    listened_on: Optional[datetime.date]
+    listened_on: Optional[date]
     album_name: str
     album_artwork_url: str
     cover_artists: str
@@ -38,6 +39,24 @@ class Album(NamedTuple):
     styles: List[str]
     main_artists: List[Artist]
     other_artists: List[Artist]
+
+    @property
+    def dt(self) -> Optional[datetime]:
+        if self.listened_on:
+            return datetime.combine(self.listened_on, datetime.min.time())
+        else:
+            return None
+
+    @property
+    def listened(self) -> bool:
+        """Whether or not I've listened to this album"""
+        if self.note == CANT_FIND:
+            return False
+        elif self.score is None:
+            return False
+        elif self.listened_on is None:
+            return False
+        return True
 
 
 @cache
@@ -78,7 +97,7 @@ def export_data(
             album_name,
             artists_on_album_cover,
             year,
-            date,
+            dateval,
             reasons,
             album_artwork,
             discogs_url,
@@ -103,14 +122,14 @@ def export_data(
             yield e
             continue
 
-        listened_on: Optional[datetime.date] = None
-        if date:
+        listened_on: Optional[date] = None
+        if dateval:
             if fscore is None:
                 yield RuntimeError(
                     f"{album_name} ({artists_on_album_cover}) has no 'score' but a 'listened on' date"
                 )
                 continue
-            listened_on = xlrd.xldate_as_datetime(int(date), 0).date()
+            listened_on = xlrd.xldate_as_datetime(int(dateval), 0).date()
         else:
             if fscore is not None:
                 yield RuntimeError(
@@ -175,10 +194,10 @@ def read_dump(p: Path) -> Iterator[Album]:
         fscore: Optional[float] = None
         if blob["score"] is not None:
             fscore = float(blob["score"])
-        dlistened_on: Optional[datetime.date] = None
+        dlistened_on: Optional[date] = None
         if blob["listened_on"] is not None:
             d = strptime(blob["listened_on"], r"%Y-%m-%d")
-            dlistened_on = datetime.date(year=d.tm_year, month=d.tm_mon, day=d.tm_mday)
+            dlistened_on = date(year=d.tm_year, month=d.tm_mon, day=d.tm_mday)
         yield Album(
             score=fscore,
             note=blob["note"],
