@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import NamedTuple, List, Iterator, Optional, Any, Union, Dict
 
 import yaml
-import orjson
 import xlrd  # type: ignore[import]
+import simplejson
 
 from .core_gsheets import get_values
 from .common import WorksheetData, split_comma_separated
@@ -178,14 +178,17 @@ def export_data(
 
 
 def default(o: Any) -> Any:
-    # serialize NamedTuple
-    if hasattr(o, "_asdict"):
-        return o._asdict()
-    raise TypeError(f"Couldn't serialize {o}")
+    if isinstance(o, datetime) or isinstance(o, date):
+        return str(o)
+    raise TypeError(f"Couldn't serialize {o} of type {type(o)}")
 
 
 def dump_results(data: Any) -> str:
-    return orjson.dumps(data, default=default).decode("utf-8")
+    return str(
+        simplejson.dumps(
+            data, default=default, namedtuple_as_object=True, sort_keys=True
+        )
+    )
 
 
 # helper to read the dump back into list of python object
