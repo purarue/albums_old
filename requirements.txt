@@ -6,3 +6,4 @@ discogs_client>=2.2.2
 xlrd>=1.2.0
 click>=7.0
 simplejson
+backoff

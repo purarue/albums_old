@@ -5,7 +5,10 @@ from urllib.parse import urlparse
 from typing import List, Tuple, Any
 from time import sleep
 
+import requests
 import click
+import backoff  # type: ignore[import]
+import httplib2  # type: ignore[import]
 import discogs_client  # type: ignore[import]
 from googleapiclient import discovery  # type: ignore[import]
 
@@ -134,6 +137,20 @@ def update_row_with_discogs_data(row, max_length):
         return original_row
 
 
+def backoff_hdlr(details):
+    print(
+        "Backing off {wait:0.1f} seconds afters {tries} tries "
+        "calling function {target} with args {args} and kwargs "
+        "{kwargs}".format(**details)
+    )
+
+
+@backoff.on_exception(
+    lambda: backoff.constant(interval=10),
+    (requests.exceptions.RequestException, requests.exceptions.ConnectionError),
+    max_tries=5,
+    on_backoff=backoff_hdlr,
+)
 def _fix_row(row: WorksheetRow, max_no_of_columns: int, resolve: bool) -> WorksheetRow:
     """Updates with Discogs data if necessary."""
     if has_discogs_link(row):  # if this has a discogs link
@@ -177,6 +194,12 @@ def fix_rows(values: WorksheetData, resolve: bool) -> WorksheetData:
     return values
 
 
+@backoff.on_exception(
+    lambda: backoff.constant(interval=10),
+    httplib2.error.ServerNotFoundError,
+    max_tries=5,
+    on_backoff=backoff_hdlr,
+)
 def update_values(values, credentials):
     """Updates the values on the spreadsheet"""
     # Uses batchUpdate instead of update since its difficult to format 'date listened on' from FORMULA valueRenderOption
