@@ -32,6 +32,8 @@ def split_comma_separated(comma_separated: str) -> List[str]:
     return return_names
 
 
+# Items which are on my spreadsheet because I added it
+# not because they won a award/were on a list etc.
 PERSONAL = set(["manual", "relation", "recommendation"])
 
 
