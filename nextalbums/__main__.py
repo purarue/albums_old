@@ -1,3 +1,5 @@
+import os
+
 import click
 
 from . import SETTINGS
@@ -80,7 +82,10 @@ def generate_csv() -> None:
     """Generate the spreadsheet.csv file in the root dir"""
     with open(SETTINGS.BASE_SPREADSHEETS_CSV_FILE, "w") as f:
         write_to_csv_file(f)
-    eprint(f"Wrote to {SETTINGS.BASE_SPREADSHEETS_CSV_FILE} successfully.")
+    sfile = SETTINGS.BASE_SPREADSHEETS_CSV_FILE
+    if sfile.startswith(os.environ["HOME"]):
+        sfile = "~" + sfile[len(os.environ["HOME"]):]
+    eprint(f"Wrote to {sfile} successfully.")
 
 
 @main.command()
