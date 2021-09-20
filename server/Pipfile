@@ -9,4 +9,8 @@ verify_ssl = true
 flask = "==1.1.2"
 waitress = ">=1.4.3"
 gitpython = ">=3.1.1"
-nextalbums = {editable = true, path = "./.."}
+httplib2 = "*"
+
+[packages.nextalbums]
+editable = true
+path = "./.."
