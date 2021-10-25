@@ -14,7 +14,7 @@ from .common import WorksheetData, split_comma_separated
 from .create_sql_statements import sql_datafile
 from .common import cache
 
-CANT_FIND = "cant find"
+DROPPED = ["cant find", "nope"]
 
 
 class Artist(NamedTuple):
@@ -50,7 +50,7 @@ class Album(NamedTuple):
     @property
     def listened(self) -> bool:
         """Whether or not I've listened to this album"""
-        if self.note == CANT_FIND:
+        if self.note in DROPPED:
             return False
         elif self.score is None:
             return False
@@ -113,8 +113,8 @@ def export_data(
         except:
             # couldn't parse, probably havent listened to this yet
             # edge case, where I can't find an album online
-            if score == CANT_FIND:
-                note = CANT_FIND
+            if score in DROPPED:
+                note = score
         try:
             iyear = int(year)
         except ValueError as e:
