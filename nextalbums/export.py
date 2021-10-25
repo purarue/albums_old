@@ -14,7 +14,7 @@ from .common import WorksheetData, split_comma_separated
 from .create_sql_statements import sql_datafile
 from .common import cache
 
-DROPPED = ["cant find", "nope"]
+DROPPED = set(["cant find", "nope"])
 
 
 class Artist(NamedTuple):
@@ -48,9 +48,13 @@ class Album(NamedTuple):
             return None
 
     @property
+    def dropped(self) -> bool:
+        return self.note in DROPPED
+
+    @property
     def listened(self) -> bool:
         """Whether or not I've listened to this album"""
-        if self.note in DROPPED:
+        if self.dropped:
             return False
         elif self.score is None:
             return False
