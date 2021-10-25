@@ -13,8 +13,9 @@ This started by me merging a bunch of lists of music to listen to:
   - [Brit Award](https://en.wikipedia.org/wiki/BRIT_Award_for_British_Album_of_the_Year)
   - [AMA](https://en.wikipedia.org/wiki/American_Music_Awards)
   - [Grammy](https://en.wikipedia.org/wiki/Grammy_Award) (Any category)
+- [Fantano's Top 200 Albums of the 2010s](https://www.youtube.com/watch?v=EyMX4lcKNPg)
 
-None of these sources are particularly perfect or complete, but they make me to listen to some music I otherwise may have not given a chance.
+None of these sources are particularly perfect or complete, but they make me to listen to some music I otherwise may have not given a chance. Only see it as slightly better than what I used to do in the past, i.e. scrolling through streaming services and picking whatever they happen to have featured.
 
 This contains code to interact with my [spreadsheet](https://sean.fish/s/albums) -- listing the next albums I should listen to, validating the data using the Discogs API, or creating a SQL schema with the data
 
@@ -124,7 +125,7 @@ $ nextalbums print-next
 I use that as part of [HPI](https://github.com/seanbreckenridge/HPI/blob/master/my/albums.py), which lets me use its query interface:
 
 ```bash
-$ hpi query my.albums.history \
+$ hpi query 'my.albums.history' \
   | jq -r '.[] | select(.score>=9) | "\(.album_name) - \(.cover_artists)"' \
   | head -n5
 Paranoid - Black Sabbath
