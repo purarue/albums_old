@@ -239,7 +239,7 @@ JOIN AlbumGenre
 	ON Album.AlbumID = AlbumGenre.AlbumID
 JOIN Genre
 	ON AlbumGenre.GenreID = Genre.GenreID
-Where Album.Score IS NOT NULL
+WHERE Album.Score IS NOT NULL
 GROUP BY Genre.GenreID
 ORDER BY `Average Score` DESC
 ;
