@@ -12,7 +12,7 @@ import simplejson
 from .core_gsheets import get_values
 from .common import WorksheetData, split_comma_separated
 from .create_sql_statements import sql_datafile
-from .common import cache
+from .common import cache, eprint
 
 DROPPED = set(["cant find", "nope"])
 
@@ -119,6 +119,9 @@ def export_data(
             # edge case, where I can't find an album online
             if score in DROPPED:
                 note = score
+            else:
+                if score.strip():
+                    eprint(f"Unexpected data in score field: {score} from {vals}")
         try:
             iyear = int(year)
         except ValueError as e:
