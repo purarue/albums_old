@@ -14,6 +14,7 @@ This started by me merging a bunch of lists of music to listen to:
   - [AMA](https://en.wikipedia.org/wiki/American_Music_Awards)
   - [Grammy](https://en.wikipedia.org/wiki/Grammy_Award) (Any category)
 - [Fantano's Top 200 Albums of the 2010s](https://www.youtube.com/watch?v=EyMX4lcKNPg)
+- Misc. [Album Charts](./charts) that I've found to be interesting
 
 None of these sources are particularly perfect or complete, but they make me to listen to some music I otherwise may have not given a chance. Only see it as slightly better than what I used to do in the past, i.e. scrolling through streaming services and picking whatever they happen to have featured.
 
