@@ -57,7 +57,7 @@ def fix_discogs_link(link: str, resolve: bool) -> str:
     if master_id:  # if we matched master id
         return "https://www.discogs.com/master/{}".format(master_id.groups()[0])
     else:  # if there is no master id
-        release_id = master_id = re.search("\/release\/(?:view\/)?(\d+)", urlparse_path)
+        release_id = re.search("\/release\/(?:view\/)?(\d+)", urlparse_path)
         if release_id:
             if resolve:
                 release_match = release_id.groups()[0]
