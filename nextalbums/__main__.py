@@ -33,11 +33,20 @@ def print_next(count: int, random: bool) -> None:
 
 
 @main.command()
-def export():
+@click.option(
+    "-r",
+    "--raise-errors",
+    is_flag=True,
+    default=False,
+    help="If there are any errors while exporting, exit",
+)
+def export(raise_errors: bool) -> None:
     """Parse and print all of the information from the spreadsheet as JSON"""
     items = []
     for res in export_data():
         if isinstance(res, Exception):
+            if raise_errors:
+                raise res
             eprint(str(res))
         else:
             items.append(res)

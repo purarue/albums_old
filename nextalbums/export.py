@@ -136,7 +136,11 @@ def export_data(
                     f"{album_name} ({artists_on_album_cover}) has no 'score' but a 'listened on' date"
                 )
                 continue
-            listened_on = xlrd.xldate_as_datetime(int(dateval), 0).date()
+            try:
+                listened_on = xlrd.xldate_as_datetime(int(dateval), 0).date()
+            except ValueError as v:
+                yield v
+                continue
         else:
             if fscore is not None:
                 yield RuntimeError(
@@ -193,7 +197,10 @@ def default(o: Any) -> Any:
 def dump_results(data: Any) -> str:
     return str(
         simplejson.dumps(
-            data, default=default, namedtuple_as_object=True, sort_keys=True
+            data,
+            default=default,
+            namedtuple_as_object=True,
+            sort_keys=True,
         )
     )
 
