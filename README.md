@@ -18,7 +18,7 @@ This started by me merging a bunch of lists of music to listen to:
 
 None of these sources are particularly perfect or complete, but they make me to listen to some music I otherwise may have not given a chance. Only see it as slightly better than what I used to do in the past, i.e. scrolling through streaming services and picking whatever they happen to have featured.
 
-This contains code to interact with my [spreadsheet](https://sean.fish/s/albums) -- listing the next albums I should listen to, validating the data using the Discogs API, or creating a SQL schema with the data
+This contains code to interact with my [spreadsheet](https://purarue.xyz/s/albums) -- listing the next albums I should listen to, validating the data using the Discogs API, or creating a SQL schema with the data
 
 ![](./.github/images/albums.png)
 
@@ -50,7 +50,7 @@ Commands:
 
 Four of those commands are related to updating the data files here:
 
-- `nextalbums discogs-update` uses the [Discogs API](https://github.com/discogs/discogs_client) to fetch metadata and validate the data on [the spreadsheet](https://sean.fish/s/albums)
+- `nextalbums discogs-update` uses the [Discogs API](https://github.com/discogs/discogs_client) to fetch metadata and validate the data on [the spreadsheet](https://purarue.xyz/s/albums)
 - `nextalbums generate-csv` updates the [`spreadsheet.csv`](./spreadsheet.csv) file
 - `nextalbums update-csv-datafiles` queries the live SQL instance to update the files in [`csv_data`](./csv_data)
 - `nextalbums create-sql-statements` uses the data from the spreadsheet to generate a `.sql` file, which when run creates the schema above. The [`sql_data/score_statements.sql`](sql_data/score_statements.sql) file contains all the data for my scores/listen on date, so I can query all that info through SQL. See below for example queries.
@@ -281,4 +281,4 @@ ids=id1,id2,id3,id4
 (discogs artist IDs, which are returned in the response of '/')
 ```
 
-Thats cached periodically and used to pull recent albums I've listened onto my 'Media Feed' window [on my website](https://sean.fish/)
+Thats cached periodically and used to pull recent albums I've listened onto my 'Media Feed' window [on my website](https://purarue.xyz/)
